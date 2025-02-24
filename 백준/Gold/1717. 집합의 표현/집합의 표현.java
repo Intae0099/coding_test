@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
         parent = new int[N+1];
@@ -25,10 +26,11 @@ public class Main {
                     union(a, b);
                     break;
                 case 1:
-                    System.out.println(isSame(a, b) ? "YES" : "NO");
+                    sb.append(isSame(a, b) ? "YES\n" : "NO\n");
                     break;
             }
         }
+        System.out.println(sb);
 
     }
     static int find(int x){
