@@ -5,9 +5,11 @@ public class Main {
 	
 	static int N, M, R;
 	static int[][] map;
+	static StringBuilder sb;
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		sb = new StringBuilder();
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		R = Integer.parseInt(st.nextToken());
@@ -29,11 +31,11 @@ public class Main {
 	static void print() {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				System.out.print(map[i][j] + " ");
+				sb.append(map[i][j] + " ");
 			}
-			System.out.println();
+			sb.append("\n");
 		}
-		
+		System.out.println(sb);
 	}
 	
 	static void turn() {
