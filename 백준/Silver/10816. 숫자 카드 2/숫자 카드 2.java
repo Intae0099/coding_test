@@ -3,44 +3,55 @@ import java.util.*;
 
 public class Main {
 
+    static int N;
+    static int[] arr;
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
-        int N = Integer.parseInt(br.readLine());
-
-        HashMap<Integer, Integer> map = new HashMap<>();
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N];
 
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int num;
         for (int i = 0; i < N; i++) {
-            num = Integer.parseInt(st.nextToken());
-            if(map.isEmpty()){
-                map.put(num, 1);
-                continue;
-            }
-            if(map.containsKey(num)){
-                map.replace(num, map.get(num) + 1);
-            }
-            else {
-                map.put(num, 1);
-            }
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
+        Arrays.sort(arr);
 
         int M = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
+        int num, result;
+
         for (int i = 0; i < M; i++) {
             num = Integer.parseInt(st.nextToken());
-            if(map.containsKey(num)){
-                sb.append(map.get(num) + " ");
-            }
-            else {
-                sb.append(0 + " ");
-            }
+            result = upper_bound(num) - lower_bound(num);
+            sb.append(result + " ");
         }
         System.out.println(sb);
 
     }
+    static int lower_bound(int num){
+        int start = 0;
+        int end = N;
+        int mid;
+        while (start < end){
+            mid = (start + end) / 2;
+            if(arr[mid] < num) start = mid + 1;
+            else end = mid;
+        }
+        return end;
+    }
 
+    static int upper_bound(int num){
+        int start = 0;
+        int end = N;
+        int mid;
+        while (start < end){
+            mid = (start + end) / 2;
+            if(arr[mid] <= num) start = mid + 1;
+            else end = mid;
+        }
+        return end;
+    }
 }
