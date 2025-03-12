@@ -1,28 +1,28 @@
-import java.util.HashMap;
+import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        String answer = "";
-        HashMap<String, Integer> map = new HashMap<>();
-        for(String s: participant){
-            if(!map.containsKey(s)){
-                map.put(s, 1);
-            } else{
-                map.put(s, map.get(s)+1);
-            }
-        }
+		String answer = "";
+		HashMap<String, Integer> hash = new HashMap<>();
+		
+		for (String str : completion) {
+			if(! hash.containsKey(str)) {
+				hash.put(str, 1);
+			}
+			else {
+				hash.replace(str, hash.get(str) + 1);
+			}
+		}
+		for (String str : participant) {
+			if(! hash.containsKey(str) || hash.get(str) == 0) {
+				answer = str;
+                break;
+			}
+			else {
+				hash.replace(str, hash.get(str) - 1);
+			}
+		}
         
-        for(String s: completion){
-            map.put(s, map.get(s)-1);
-            
-            if(map.get(s) == 0){
-                map.remove(s);
-            }
-        }
-        
-        for(String key: map.keySet()){
-            answer = key;
-        }
         return answer;
     }
 }
