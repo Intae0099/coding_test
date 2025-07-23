@@ -3,7 +3,7 @@
 
     public class Main {
 
-        static class Node implements Comparable<Node>{
+        static class Node{
             int weight;
             String word;
 
@@ -12,18 +12,6 @@
                 this.word = word;
             }
 
-            @Override
-            public int compareTo(Node o) {
-                return this.weight - o.weight;
-            }
-
-            @Override
-            public String toString() {
-                return "Node{" +
-                        "weight=" + weight +
-                        ", word='" + word + '\'' +
-                        '}';
-            }
         }
 
         static ArrayList<Node> arr;
@@ -46,8 +34,6 @@
                 arr.add(new Node(num, word));
             }
 
-            Collections.sort(arr);
-
             int size = arr.size();
             int left, right, mid;
             int idx = size - 1;
@@ -56,7 +42,7 @@
                 num = Integer.parseInt(br.readLine());
                 left = 0;
                 right = size - 1;
-                mid = (left + right) / 2;
+                mid = 0;
 
                 while (left <= right){
                     mid = (left + right) / 2;
