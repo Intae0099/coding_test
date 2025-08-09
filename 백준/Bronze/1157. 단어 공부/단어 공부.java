@@ -8,28 +8,27 @@ public class Main {
         String word = br.readLine();
         word = word.toUpperCase();
         HashMap<Character, Integer> map = new HashMap<>();
-        int result_max = 0;
+
+
+        int[] alpha = new int[26];
+        char result = '?';
         for(char c : word.toCharArray()){
-            map.put(c, map.getOrDefault(c, 0) + 1);
-            result_max = Math.max(result_max, map.get(c));
+            alpha[c - 'A'] ++;
         }
 
-        int cnt = 0;
-        char result = '?';
-        for(char c : map.keySet()){
-            if(map.get(c) == result_max){
-                result = c;
-                cnt ++;
+        int result_max = 0;
+
+        for(int i = 0; i < 26; i++){
+            if(result_max < alpha[i]){
+                result_max = alpha[i];
+                result = (char) ('A' + i);
+            }
+            else if (result_max == alpha[i]){
+                result = '?';
             }
         }
 
-        if(cnt > 1){
-            System.out.println("?");
-        }
-        else{
-            System.out.println(result);
-        }
-
+        System.out.println(result);
 
 
     }
