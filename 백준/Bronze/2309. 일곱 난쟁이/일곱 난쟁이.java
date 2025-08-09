@@ -1,40 +1,83 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
+public class Main {
 
+    static int[] arr;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int[] arr = new int[9];
-        for(int i = 0; i < 9; i++){
+        arr = new int[9];
+        for (int i = 0; i < 9; i++) {
             arr[i] = Integer.parseInt(br.readLine());
         }
+
+        //permutation(new boolean[9], 0, new int[7]);
         Arrays.sort(arr);
-        recur(arr, new boolean[9], 0, 0);
-
+        combination(0, 0, new int[7]);
     }
-    static void recur(int[] arr, boolean[] visited, int idx, int cnt){
 
+    // 순열
+    static void permutation(boolean[] visited, int cnt, int[] ord_arr){
         if(cnt == 7){
-            int result = 0;
-            for(int i = 0; i < 9; i++){
-                if(visited[i]) result += arr[i];
-            }
-            if(result == 100){
-                for(int i = 0; i < 9; i++){
-                    if(visited[i]) System.out.println(arr[i]);
-                }
+            if(check(ord_arr) && check_num(ord_arr)){
+                print(ord_arr);
                 System.exit(0);
             }
+            return;
 
         }
 
-        if(idx > 8) return;
-        
-        visited[idx] = true;
-        recur(arr, visited, idx + 1, cnt + 1);
-        visited[idx] = false;
-        recur(arr, visited, idx + 1, cnt);
+
+        for(int i = 0; i < 9; i++){
+            if(!visited[i]){
+                visited[i] = true;
+                ord_arr[cnt] = arr[i];
+                permutation(visited, cnt + 1, ord_arr);
+                visited[i] = false;
+
+            }
+        }
+
+
     }
+
+    static void combination(int start, int cnt, int[] ord_arr){
+        if(cnt == 7){
+            if (check_num(ord_arr)) {
+                print(ord_arr);
+                System.exit(0);
+            }
+            return;
+        }
+
+        for (int i = start; i < 9; i++) {
+            ord_arr[cnt] = arr[i];
+            combination(i+1, cnt + 1, ord_arr);
+        }
+    }
+
+
+    static boolean check(int[] ord_arr){
+        for(int i = 1; i < 7; i++){
+            if(ord_arr[i] < ord_arr[i-1]) return false;
+        }
+        return true;
+    }
+
+    static boolean check_num(int[] ord_arr){
+        int num = 0;
+        for(int i = 0; i < 7; i++){
+            num += ord_arr[i];
+        }
+        if(num == 100) return true;
+        return false;
+    }
+
+    static void print(int[] ord_arr){
+        for(int num : ord_arr){
+            System.out.println(num);
+        }
+    }
+
 }
