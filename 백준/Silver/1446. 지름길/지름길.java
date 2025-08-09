@@ -3,39 +3,26 @@ import java.io.*;
 
 public class Main {
 
-    static class Node implements Comparable<Node>{
-        int end, dist;
-        Node(int end, int dist){
-            this.end = end;
+    static class Node{
+        int from, to, dist;
+        Node(int from, int to, int dist){
+            this.from = from;
+            this.to = to;
             this.dist = dist;
         }
-
-        public int compareTo(Node o){
-            return this.dist - o.dist;
-        }
-
     }
 
     static int N, D, result_dist;
-    static ArrayList<Node>[] adj;
-    static int[] dist;
+
+    static int[] dp;
+    static ArrayList<Node> shortcut;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         D = Integer.parseInt(st.nextToken());
 
-        adj = new ArrayList[D+1];
-        for(int i = 0; i <= D; i++){
-            adj[i] = new ArrayList<>();
-
-        }
-
-        for (int i = 0; i < D; i++) {
-            adj[i].add(new Node(i+1, 1));
-        }
-
-
+        shortcut = new ArrayList<>();
 
         int start, end, cost;
         for(int i = 0; i < N; i++){
@@ -46,34 +33,25 @@ public class Main {
             if(end - start <= cost ) continue;
             if(end > D) continue;
 
-            adj[start].add(new Node(end, cost));
+            shortcut.add(new Node(start, end, cost));
         }
-        result_dist = D;
 
+        dp = new int[D+1];
+        Arrays.fill(dp, 10001);
+        dp[0] = 0;
 
-        dist = new int[D+1];
-        Arrays.fill(dist, 10001);
-        dijkstra();
-        System.out.println(dist[D]);
+        for (int i = 0; i <= D ; i++) {
+            if(i > 0) dp[i] = Math.min(dp[i], dp[i-1] + 1);
 
-
-
-    }
-    static void dijkstra(){
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        dist[0] = 0;
-        pq.add(new Node(0,0));
-
-        while (!pq.isEmpty()) {
-            Node cur = pq.poll();
-            if (dist[cur.end] < cur.dist) continue;
-            for (Node next : adj[cur.end]) {
-                if (dist[next.end] > dist[cur.end] + next.dist) {
-                    dist[next.end] = dist[cur.end] + next.dist;
-                    pq.offer(new Node(next.end, dist[next.end]));
+            for(Node node : shortcut){
+                if(node.from == i){
+                    dp[node.to] = Math.min(dp[node.to], dp[i] + node.dist);
                 }
             }
         }
+
+        System.out.println(dp[D]);
+
     }
 
 }
