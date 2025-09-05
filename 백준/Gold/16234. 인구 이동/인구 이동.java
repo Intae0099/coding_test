@@ -85,6 +85,8 @@ public class Main {
                 }
 
             }
+            if (group.size() == 1) return false;
+
         }
 
         int sum = 0;
