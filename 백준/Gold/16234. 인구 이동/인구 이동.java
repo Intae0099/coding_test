@@ -14,7 +14,7 @@ public class Main {
     }
 
     static int N, L, R;
-    static boolean[][] visited;
+
     static int[][] map;
     static int[] dx = {0, 0, 1, -1};
     static int[] dy = {1, -1, 0, 0};
@@ -40,11 +40,11 @@ public class Main {
         while (flag){
 
             flag = false;
-            visited = new boolean[N][N];
+            boolean[][] visited = new boolean[N][N];
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
                     if(!visited[i][j]){
-                        if(bfs(i, j)){
+                        if(bfs(i, j, visited)){
                             flag = true;
                         };
 
@@ -60,7 +60,7 @@ public class Main {
 
     }
 
-    public static boolean bfs(int x, int y){
+    public static boolean bfs(int x, int y, boolean[][] visited){
         ArrayDeque<Node> q = new ArrayDeque<>();
         q.add(new Node(x, y, map[x][y]));
         ArrayList<Node> group = new ArrayList<>();
