@@ -50,19 +50,21 @@ public class Main {
         }
         visited[0][0] = board[0][0];
         Node temp;
-        int nx, ny;
         while (!q.isEmpty()){
             temp = q.poll();
+            if (temp.weight > visited[temp.x][temp.y]) continue;
+
             for (int i = 0; i < 4; i++) {
-                nx = temp.x + dx[i];
-                ny = temp.y + dy[i];
+                int nx = temp.x + dx[i];
+                int ny = temp.y + dy[i];
 
-                if(nx < 0 || nx >= N || ny < 0 || ny >= N || visited[nx][ny] != Integer.MAX_VALUE) continue;
-                if(temp.weight + board[nx][ny] < visited[nx][ny]){
-                    visited[nx][ny] = temp.weight + board[nx][ny];
-                    q.add(new Node(nx, ny, visited[nx][ny]));
+                if(nx < 0 || nx >= N || ny < 0 || ny >= N) continue;
+
+                int newDist = temp.weight + board[nx][ny];
+                if(newDist < visited[nx][ny]){
+                    visited[nx][ny] = newDist;
+                    q.add(new Node(nx, ny, newDist));
                 }
-
             }
         }
 
