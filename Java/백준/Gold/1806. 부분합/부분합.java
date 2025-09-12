@@ -16,29 +16,22 @@ public class Main {
             dp[i] = Integer.parseInt(st.nextToken());
         }
 
-        int[] dp_sum = new int[N];
-
-        dp_sum[0] = dp[0];
-        for (int i = 1; i < N; i++) {
-            dp_sum[i] = dp_sum[i-1] + dp[i];
+        int[] dp_sum = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            dp_sum[i] = dp_sum[i-1] + dp[i-1];
         }
 
         int left = 0;
         int right = 0;
-        int sum = 0;
         int result = Integer.MAX_VALUE;
 
-        while (true){
-            if(sum >= S){
+        while (right <= N){
+            if (dp_sum[right] - dp_sum[left] >= S){
                 result = Math.min(result, right - left);
-                sum -= dp[left];
                 left++;
             }
-            else if(right == N){
-                break;
-            }
             else {
-                sum += dp[right];
+                if (right == N) break;
                 right++;
             }
         }
