@@ -30,7 +30,7 @@ public class Main {
         }
 
         bfs();
-        System.out.println(sb.toString().trim());
+        System.out.println(sb);
     }
 
     public static void bfs(){
