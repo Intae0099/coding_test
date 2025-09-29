@@ -31,10 +31,10 @@ public class Main {
             map.add(new Node(x, y));
 
         }
-        Collections.sort(map, (map1, map2) -> {
-            if(map1.x != map2.x) return map1.x - map2.x;
-            return map1.y - map2.y;
-        });
+//        Collections.sort(map, (map1, map2) -> {
+//            if(map1.x != map2.x) return map1.x - map2.x;
+//            return map1.y - map2.y;
+//        });
         result = 0;
 
         check();
