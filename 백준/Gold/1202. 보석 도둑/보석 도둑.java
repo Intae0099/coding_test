@@ -32,9 +32,7 @@ public class Main {
             knapsack[i] = Integer.parseInt(br.readLine());
         }
 
-        Arrays.sort(jewel, (arr1, arr2) ->{
-            return arr1[0] - arr2[0];
-        });
+        Arrays.sort(jewel, Comparator.comparingInt(a -> a[0]));
         Arrays.sort(knapsack);
 
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
