@@ -1,40 +1,43 @@
-        import java.util.*;
-        import java.io.*;
+import java.io.*;
+import java.util.*;
 
-        public class Main {
+public class Main {
 
-            static int N, K, result;
-            static HashMap<Integer, Integer> map;
-            public static void main(String[] args) throws Exception{
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                StringTokenizer st = new StringTokenizer(br.readLine());
-                N = Integer.parseInt(st.nextToken());
-                K = Integer.parseInt(st.nextToken());
-
-                st = new StringTokenizer(br.readLine());
-                int[] arr = new int[N];
-                for (int i = 0; i < N; i++) {
-                    arr[i] = Integer.parseInt(st.nextToken());
-                }
-                
-                result = 0;
-                int temp = 1;
-                map = new HashMap<>();
-                int left = 0;
-                int result = 0;
-
-                for (int right = 0; right < N; right++) {
-                    map.put(arr[right], map.getOrDefault(arr[right], 0) + 1);
-
-                    while (map.get(arr[right]) > K) {
-                        map.put(arr[left], map.get(arr[left]) - 1);
-                        left++;
-                    }
-
-                    result = Math.max(result, right - left + 1);
-                }
-
-                System.out.println(result);
-
-            }
+    static int N, K;
+    static int[] arr;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        arr = new int[N];
+        int[] num = new int[100001];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
+
+        int left = 0;
+        num[arr[left]]++;
+
+        int cnt = 0;
+        for (int right = 1; right < N; right++) {
+            num[arr[right]]++;
+            if(num[arr[right]] > K){
+                while (num[arr[right]] > K){
+                    num[arr[left]]--;
+                    left++;
+                }
+            }
+            else{
+                cnt = Math.max(cnt, right - left + 1);
+            }
+
+
+
+        }
+
+        System.out.println(cnt);
+
+    }
+}
