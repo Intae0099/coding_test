@@ -3,18 +3,23 @@ import java.io.*;
 
 public class Main {
 
-    static int[][] prev;
+    static int[] prev;
+    static int[] ord_list;
     static StringBuilder sb;
+    static boolean[] visited;
     static char[] ord_idx = {'D', 'S', 'L', 'R'};
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int T = Integer.parseInt(br.readLine());
         sb = new StringBuilder();
-
+        visited = new boolean[10000];
+        prev = new int[10000];
+        ord_list = new int[10000];
         for (int t = 0; t < T; t++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            prev = new int[10000][2];
+            Arrays.fill(prev, -1);
+            Arrays.fill(ord_list, -1);
             int A = Integer.parseInt(st.nextToken());
             int B = Integer.parseInt(st.nextToken());
 
@@ -27,7 +32,7 @@ public class Main {
     public static void bfs(int start, int end){
         Queue<Integer> q = new ArrayDeque<>();
         q.add(start);
-        boolean[] visited = new boolean[10000];
+        Arrays.fill(visited, false);
         visited[start] = true;
 
         while (!q.isEmpty()){
@@ -38,8 +43,8 @@ public class Main {
                 int next = cal(now, ord);
                 if(visited[next]) continue;
                 q.add(next);
-                prev[next][0] = now;
-                prev[next][1] = ord;
+                prev[next] = now;
+                ord_list[next] = ord;
                 visited[next] = true;
             }
         }
@@ -48,11 +53,11 @@ public class Main {
 
         int check = end;
         while(true){
-            result.append(ord_idx[prev[check][1]]);
-            check = prev[check][0];
+            result.append(ord_idx[ord_list[check]]);
+            check = prev[check];
             if(check == start) break;
         }
-        
+
         sb.append(result.reverse()).append("\n");
 
 
