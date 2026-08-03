@@ -1,28 +1,28 @@
 import java.util.*;
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {
-        HashMap<Integer, Integer> hash = new HashMap<>();
-		Stack<Integer> result = new Stack<>();
-		int day;
-		for (int i = 0; i < progresses.length; i++) {
-			day = (int) Math.ceil((double) (100 - progresses[i]) / (double) speeds[i]);
-			if(result.isEmpty()) {
-				result.add(day);
-				hash.put(day, 1);
-			}
-			else if(result.peek() >= day) {
-				hash.put(result.peek(), hash.get(result.peek()) + 1);
-			}
-			else {
-				result.add(day);
-				hash.put(day, 1);
-			}
-		}
-
-		int[] answer = new int[result.size()];
-		for (int i = 0; i < answer.length; i++) {
-			answer[i] = hash.get(result.get(i));
-		}
+    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
+        int N = progresses.length;
+        ArrayDeque<Integer> q = new ArrayDeque<>();
+        ArrayList<Integer> answer = new ArrayList<>();
+        for(int i = 0; i < N; i++){
+            int temp = (100 - progresses[i]);
+            temp = temp / speeds[i] + (temp % speeds[i] == 0 ? 0 : 1);
+            q.add(temp);
+        }
+        while(!q.isEmpty()){
+            int cnt = 1;
+            int now = q.poll();
+            while(!q.isEmpty()){
+                if(q.peek() <= now){
+                    q.poll();
+                    cnt++;
+                }
+                else break;
+            }
+            answer.add(cnt);
+        }
+        
+        
         return answer;
     }
 }
