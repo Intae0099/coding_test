@@ -1,46 +1,37 @@
 import java.util.*;
 class Solution {
-    public int[] solution(String[] genres, int[] plays) {
-        ArrayList<Integer> result = new ArrayList<>();
-        HashMap<String, Integer> hash = new HashMap<>();
-        HashMap<String, ArrayList<int[]>> hash_ord = new HashMap<>();
-        for (int i = 0; i < genres.length; i++) {
-            if(hash.containsKey(genres[i])){
-                hash.put(genres[i], hash.get(genres[i]) + plays[i]);
-            }
-            else hash.put(genres[i], plays[i]);
-
-            if(hash_ord.containsKey(genres[i])){
-                hash_ord.get(genres[i]).add(new int[] {plays[i], i});
-            }
-            else {
-                hash_ord.put(genres[i], new ArrayList<>());
-                hash_ord.get(genres[i]).add(new int[] {plays[i], i});
-            }
-
+    static int N;
+    static HashMap<String, Integer> cnt_map = new HashMap<>();
+    static HashMap<String, ArrayList<Integer>> idx_map = new HashMap<>();
+    public ArrayList<Integer> solution(String[] genres, int[] plays) {
+        N = genres.length;
+        for(int i = 0; i < N; i++){
+            cnt_map.put(genres[i], cnt_map.getOrDefault(genres[i], 0) + plays[i]);
+            if(!idx_map.containsKey(genres[i])) idx_map.put(genres[i], new ArrayList<>());
+            idx_map.get(genres[i]).add(i);
         }
-
-        ArrayList<String> key = new ArrayList<>(hash.keySet());
-
-        key.sort((o1, o2) -> hash.get(o2).compareTo(hash.get(o1)));
-        String temp;
         
-        for (int i = 0; i < key.size(); i++) {
-            temp = key.get(i);
-            if(hash_ord.get(temp).size() == 1){
-                result.add(hash_ord.get(temp).get(0)[1]);
-            }
-            else {
-                hash_ord.get(temp).sort(Comparator.comparingInt((int[] o) -> o[0]).reversed());
-                result.add(hash_ord.get(temp).get(0)[1]);
-                result.add(hash_ord.get(temp).get(1)[1]);
+        for(String key : idx_map.keySet()){
+            Collections.sort(idx_map.get(key), (a1, a2) -> {
+                if(plays[a2] == plays[a1]) return Integer.compare(a1, a2);
+                return Integer.compare(plays[a2], plays[a1]);
+            });
+        }
+        
+        ArrayList<String> genres_arr = new ArrayList<>(cnt_map.keySet());
+        Collections.sort(genres_arr, (a1, a2) -> {
+            return Integer.compare(cnt_map.get(a2), cnt_map.get(a1));
+        });
+        
+        ArrayList<Integer> answer = new ArrayList<>();
+        int size = idx_map.get(genres_arr.get(0)).size();
+        for(int i = 0; i < genres_arr.size(); i++){
+            int len = Math.min(2, idx_map.get(genres_arr.get(i)).size());
+            for(int j = 0; j < len; j++) {
+                answer.add(idx_map.get(genres_arr.get(i)).get(j));
             }
         }
-        int[] answer = new int[result.size()];
-        for(int i = 0; i < answer.length; i++){
-            answer[i] = result.get(i);
-        }
+        
         return answer;
-        
     }
 }
