@@ -1,24 +1,42 @@
 import java.util.*;
 class Solution {
-    public int solution(int[] priorities, int location) {
-        PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder());
-        for (int i = 0; i < priorities.length; i++) {
-            q.add(priorities[i]);
+    class Node{
+        int idx, priority;
+        Node(int idx, int priority){
+            this.idx = idx;
+            this.priority = priority;
         }
-        int cnt = 0;
-        while (!q.isEmpty()){
-            for (int i = 0; i < priorities.length; i++) {
-                if(priorities[i] == q.peek()){
-                    q.poll();
-                    cnt +=1;
-                    if(i == location){
-                        return cnt;
-                    }
-                }
+
+    }
+    
+    static int N;
+    public int solution(int[] priorities, int location) {
+        N = priorities.length;
+        ArrayDeque<Node> q = new ArrayDeque<>();
+        for(int i = 0; i < N; i++){
+            q.add(new Node(i, priorities[i]));
+        }
+        
+        int result = 0;
+        
+        while(!q.isEmpty()){
+            Node now = q.poll();
+            if(check(now, q)){
+                q.add(now);
+            }
+            else{
+                result++;
+                if(now.idx == location) break;
             }
         }
-        return cnt;
-
+        
+        return result;
+    }
     
+    public boolean check(Node now, ArrayDeque<Node> q){
+        for(Node node : q){
+            if(now.priority < node.priority) return true;
+        }
+        return false;
     }
 }
