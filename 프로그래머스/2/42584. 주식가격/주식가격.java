@@ -1,24 +1,44 @@
 import java.util.*;
 class Solution {
-    public int[] solution(int[] prices) {
-        int[] answer = new int[prices.length];
-        Queue<Integer> q = new ArrayDeque<>();
-        for(int i : prices){
-            q.add(i);
+    
+    class Node{
+        int idx, price;
+        Node(int idx, int price){
+            this.idx = idx;
+            this.price = price;
         }
-        int now;
-        for(int i = 0; i < prices.length; i++){
-            now = q.poll();
-            int time = 0;
-            for(int k : q){
-                time += 1;
-                if(now > k){   
-                    break;
+    }
+    
+    public int[] solution(int[] prices) {
+        int N = prices.length;
+        int[] result = new int[N];
+        ArrayDeque<Node> q = new ArrayDeque<>();
+        
+        q.add(new Node(0, prices[0]));
+        int cnt = 0;
+        
+        while(cnt < N - 1){
+            cnt++;
+            int len = q.size();
+            for(int i = 0; i < len; i++){
+                Node now = q.poll();
+                if(now.price <= prices[cnt]){
+                    q.add(now);
+                }
+                else{
+                    result[now.idx] = cnt - now.idx;
                 }
             }
-            answer[i] = time;
+            q.add(new Node(cnt, prices[cnt]));
         }
         
-        return answer;
+        if(!q.isEmpty()){
+            while(!q.isEmpty()){
+                Node now = q.poll();
+                result[now.idx] = cnt - now.idx;
+            }
+        }
+        
+        return result;
     }
 }
