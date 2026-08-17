@@ -1,17 +1,13 @@
 import java.util.*;
 class Solution {
-    public int[] solution(int[] array, int[][] commands) {
-        ArrayList<Integer> arr;
-        int[] answer = new int[commands.length];
-        for(int t = 0; t < commands.length; t++){
-            arr = new ArrayList<>();
-            for(int i = commands[t][0]-1; i < commands[t][1]; i++){
-                arr.add(array[i]);
-            }
-            Collections.sort(arr);
-            answer[t] = arr.get(commands[t][2] - 1);
+    public ArrayList<Integer> solution(int[] array, int[][] commands) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        for(int[] command : commands){
+            ArrayList<Integer> temp = new ArrayList<>();
+            for(int i = command[0] - 1; i < command[1]; i++) temp.add(array[i]);
+            Collections.sort(temp);
+            answer.add(temp.get(command[2] - 1));
         }
-        
         return answer;
     }
 }
