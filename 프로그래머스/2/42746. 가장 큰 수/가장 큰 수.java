@@ -1,20 +1,10 @@
 import java.util.*;
 class Solution {
     public String solution(int[] numbers) {
-        ArrayList<Integer> arr = new ArrayList<>();
-        String temp;
-        for(int i = 0; i < numbers.length; i++){
-            temp = Integer.toString(numbers[i]);
-            for(int k = 0; k < temp.length(); k++){
-                arr.add((int) temp.charAt(k) - '0');
-            }
-            
-        }
-        Collections.sort(arr, Collections.reverseOrder());
-        String answer = "";
-        for(Integer k : arr){
-            answer += Integer.toString(k);
-        }
-        return answer;
+        int N = numbers.length;
+        String[] str = new String[N];
+        for(int i = 0; i < N; i++) str[i] = Integer.toString(numbers[i]);
+        Arrays.sort(str, (a1, a2) -> (a2 + a1).compareTo(a1 + a2));
+        return str[0].equals("0") ? "0" : String.join("", str);
     }
 }
