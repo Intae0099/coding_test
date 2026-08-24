@@ -1,45 +1,44 @@
 import java.util.*;
 class Solution {
-    static HashSet<Integer> set;
-    static int[] nums;
+    static int N;
+    static Set<Integer> set = new HashSet<>();
     public int solution(String numbers) {
-        set = new HashSet<>();
-        nums = new int[numbers.length()];
-        for(int i = 0; i < nums.length; i++){
-            nums[i] = numbers.charAt(i) - '0';
+        N = numbers.length();
+        char[] arr = numbers.toCharArray();
+        dfs(arr, new boolean[N], 0, 0);
+        int result = 0;
+        for(int i : set){
+            if(check(i)) result++;
         }
         
-        recur("", new boolean[numbers.length()], 0);
-        int answer = set.size();
-        return answer;
-
+        System.out.println(set.toString());
+        
+        return result;
     }
     
-    public static void recur(String num, boolean[] visited, int idx){
-        if(idx == nums.length){
-            int temp = intString(num);
-            if(temp != -1) set.add(temp);
+    public void dfs(char[] arr, boolean[] visited, int depth, int num){
+        if(depth == N){
+            set.add(num);
             return;
         }
         
-        for(int i = 0; i < nums.length; i++){
-            if(!visited[i]){
-                visited[i] = true;
-                recur(num + nums[i],visited, idx + 1);
-                visited[i] = false;
-                recur(num, visited, idx + 1);
-            }
+        for(int i = 0; i < N; i++){
+            if(visited[i]) continue;
+            visited[i] = true;
+            dfs(arr, visited, depth + 1, num * 10 + (arr[i] - '0'));
+            visited[i] = false;
+            dfs(arr, visited, depth + 1, num);
+            
         }
         
     }
-    public static int intString(String num){
-    	if(num.isEmpty()) return -1;
-        int temp = Integer.parseInt(num);
-        if(temp < 2) return -1;
-        for(int i = 2; i < (int) Math.sqrt(temp)+1; i++){
-            if(temp % i == 0) return -1;
-        }
-        return temp;
-    }
 
+    public boolean check(int num){
+        if(num < 2) return false;
+        int cnt = 0;
+        for(int i = 2; i <= Math.sqrt(num); i++){
+            if(num % i == 0) return false;
+        }
+        return true;
+    }
 }
