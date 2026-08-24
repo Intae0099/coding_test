@@ -1,11 +1,10 @@
 import java.util.*;
 class Solution {
     public int solution(int[] citations) {
-        int answer = 0;
         Arrays.sort(citations);
-        for(int i = 0; i < citations.length; i++){
-            if(citations[i] >= citations.length - i) return citations.length - i;
-            
+        int N = citations.length;
+        for(int i = 0; i < N; i++){
+            if(citations[i] >= N - i && i < citations[i]) return N - i;
         }
         return 0;
     }
