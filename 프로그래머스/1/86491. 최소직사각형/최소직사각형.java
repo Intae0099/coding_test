@@ -1,23 +1,15 @@
-import java.util.*;
 class Solution {
     public int solution(int[][] sizes) {
-        int answer = 0;
-        ArrayList<Integer> row = new ArrayList<>();
-        ArrayList<Integer> col = new ArrayList<>();
-        for(int i = 0; i < sizes.length; i++){
-            if(sizes[i][0] > sizes[i][1]){
-                row.add(sizes[i][0]);
-                col.add(sizes[i][1]);
-            }
-            else{
-                row.add(sizes[i][1]);
-                col.add(sizes[i][0]);
-            }
-        }
-        Collections.sort(row);
-        Collections.sort(col);
-        answer = row.get(row.size() - 1) * col.get(col.size() - 1);
+        int x_max = 0;
+        int y_max = 0;
         
-        return answer;
+        for(int[] size : sizes){
+            int max_size = Math.max(size[0], size[1]);
+            int min_size = Math.min(size[0], size[1]);
+            x_max = Math.max(x_max, max_size);
+            y_max = Math.max(y_max, min_size);
+        }
+        
+        return x_max * y_max;
     }
 }
