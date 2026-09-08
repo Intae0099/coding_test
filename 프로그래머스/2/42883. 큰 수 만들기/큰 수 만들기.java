@@ -1,44 +1,31 @@
+
 import java.util.*;
 class Solution {
-    public String solution(String number, int k) {
-        String answer = "";
-        Stack<Character> stack = new Stack<>();
-        
-        int idx = 0;
-        while(idx < number.length()){
+    public StringBuilder solution(String number, int k) {
+        Stack<Integer> stack = new Stack<>();
+        int N = number.length();
+        for(int i = 0; i < N; i++){
+            int now = (number.charAt(i) - '0');
             if(!stack.isEmpty()){
-                while(k > 0 && !stack.isEmpty()){
-                    if(stack.peek() < number.charAt(idx)){
-                        stack.pop();
-                        k -= 1;
+                if(k > 0){
+                    while(!stack.isEmpty()){
+                        if(k <= 0) break;
+                        if(stack.peek() < now){
+                            k--;
+                            stack.pop();    
+                        }
+                        else{
+                            break;
+                        }
                     }
-                    else{
-                        break;
-                    }
-                        
                 }
-                stack.push(number.charAt(idx));
-                idx += 1;
-            
             }
-            else{
-                stack.push(number.charAt(idx));
-                idx += 1;
-            }
-
-
+            stack.add(now);
         }
-        if(k > 0) {
-        	while(k > 0) {
-        		stack.pop();
-                k -= 1;
-        	}
-        }
-        for(char c : stack){
-            answer += c;
-        }
+        for(int i = k; i > 0; i--) stack.pop();
         
-        
-        return answer;
+        StringBuilder sb = new StringBuilder();
+        for(int i : stack) sb.append(i);
+        return sb;
     }
 }
